@@ -15,4 +15,6 @@ ENV PSPDEV="/usr/local/pspdev"
 ENV BUILDDIR="/opt/pspbuild"
 ENV PATH="$PATH:$PSPDEV/bin"
 
+RUN ln -sf /proc/mounts /etc/mtab
+
 RUN mkdir -p $PSPDEV && mkdir -p $BUILDDIR && git clone https://github.com/pspdev/pspdev.git $BUILDDIR && $BUILDDIR/prepare.sh && $BUILDDIR/build-all.sh && $BUILDDIR/build-extra.sh
