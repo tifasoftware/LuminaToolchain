@@ -21,5 +21,5 @@ RUN mkdir -p $PSPDEV && mkdir -p $BUILDDIR && git clone https://github.com/pspde
 
 RUN wget -U "dkp-apt" https://apt.devkitpro.org/install-devkitpro-pacman && chmod +x ./install-devkitpro-pacman
 RUN yes | ./install-devkitpro-pacman
-RUN echo "\ny\ny" | dkp-pacman -Syyu 3ds-dev 3ds-sdl-libs
-RUN echo "\ny\ny" | dkp-pacman -Syyu gamecube-dev gamecube-sdl2-libs
+RUN echo "\n\ny" | dkp-pacman -Syyu 3ds-dev 3ds-sdl-libs
+RUN echo "\n\ny" | dkp-pacman -Syyu gamecube-dev gamecube-sdl2-libs
