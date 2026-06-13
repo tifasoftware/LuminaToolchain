@@ -18,3 +18,7 @@ ENV PATH="$PATH:$PSPDEV/bin"
 RUN ln -sf /proc/mounts /etc/mtab
 
 RUN mkdir -p $PSPDEV && mkdir -p $BUILDDIR && git clone https://github.com/pspdev/pspdev.git $BUILDDIR && $BUILDDIR/prepare.sh && $BUILDDIR/build-all.sh && $BUILDDIR/build-extra.sh
+
+RUN wget -U "dkp-apt" https://apt.devkitpro.org/install-devkitpro-pacman && chmod +x ./install-devkitpro-pacman
+RUN yes | ./install-devkitpro-pacman
+RUN echo "\ny" | dkp-pacman -Syyu 3ds-dev
