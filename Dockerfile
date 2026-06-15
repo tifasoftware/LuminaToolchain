@@ -9,17 +9,40 @@ RUN apt-get update && apt-get install -y \
     libgpgme11 \
     libarchive-tools \
     fakeroot \
-    git
+    git \
+    libgmp-dev \
+    libmpfr-dev \
+    libmpc-dev \
+    gettext \
+    libelf-dev \
+    texinfo \
+    bison \
+    flex \
+    libjpeg-dev \
+    libpng-dev \
+    pkg-config \
+    libisofs-dev \
+    meson \
+    ninja-build \
+    rake
 
 ENV PSPDEV="/usr/local/pspdev"
-ENV BUILDDIR="/opt/pspbuild"
-ENV PATH="$PATH:$PSPDEV/bin"
+ENV PS2DEV="/usr/local/ps2dev"
+ENV PSPBUILD="/opt/pspbuild"
+ENV PS2BUILD="/opt/ps2build"
+ENV DCTC="/opt/toolchains/dc"
+ENV PATH="$PATH:$PSPDEV/bin:$PS2DEV/bin"
 
 RUN ln -sf /proc/mounts /etc/mtab
 
-RUN mkdir -p $PSPDEV && mkdir -p $BUILDDIR && git clone https://github.com/pspdev/pspdev.git $BUILDDIR && $BUILDDIR/prepare.sh && $BUILDDIR/build-all.sh && $BUILDDIR/build-extra.sh
+RUN mkdir -p $PSPDEV && mkdir -p $PSPBUILD && git clone https://github.com/pspdev/pspdev.git $PSPBUILD && $PSPBUILD/prepare.sh && $PSPBUILD/build-all.sh && $PSPBUILD/build-extra.sh
 
 RUN wget -U "dkp-apt" https://apt.devkitpro.org/install-devkitpro-pacman && chmod +x ./install-devkitpro-pacman
 RUN yes | ./install-devkitpro-pacman
+
 RUN echo "\n\ny" | dkp-pacman -Syyu 3ds-dev 3ds-sdl-libs
 RUN echo "\n\ny" | dkp-pacman -Syyu gamecube-dev gamecube-sdl2-libs
+
+RUN mkdir -p $DCTC && chmod -R 755 $DCTC && chown -R $(id -u):$(id -g) $DCTC && git clone https://github.com/KallistiOS/KallistiOS.git -b v2.2.x $DCTC/kos && cd $DCTC/kos/utils/dc-chain && cp Makefile.default.cfg Makefile.cfg && make && make clean distclean && cd $DCTC/kos && cp doc/environ.sh.sample environ.sh && source $DCTC/kos/environ.sh && make
+RUN git clone --recursive https://github.com/tifasoftware/kos-ports $DCTC/kos-ports && $DCTC/kos-ports/utils/build-all.sh
+RUN git clone https://gitlab.com/simulant/mkdcdisc.git $DCTC/mkdcdisc && cd $DCTC/mkdcdisc && meson setup builddir && meson compile -C builddir
