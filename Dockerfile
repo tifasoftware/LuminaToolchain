@@ -24,7 +24,10 @@ RUN apt-get update && apt-get install -y \
     libisofs-dev \
     meson \
     ninja-build \
-    rake
+    rake \
+    autopoint \
+    libgmp3-dev \
+    libgsl-dev
 
 ENV PSPDEV="/usr/local/pspdev"
 ENV PS2DEV="/usr/local/ps2dev"
