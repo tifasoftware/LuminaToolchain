@@ -43,6 +43,7 @@ RUN yes | ./install-devkitpro-pacman
 RUN echo "\n\ny" | dkp-pacman -Syyu 3ds-dev 3ds-sdl-libs
 RUN echo "\n\ny" | dkp-pacman -Syyu gamecube-dev gamecube-sdl2-libs
 
-RUN mkdir -p $DCTC && chmod -R 755 $DCTC && chown -R $(id -u):$(id -g) $DCTC && git clone https://github.com/KallistiOS/KallistiOS.git -b v2.2.x $DCTC/kos && cd $DCTC/kos/utils/dc-chain && cp Makefile.default.cfg Makefile.cfg && make && make clean distclean && cd $DCTC/kos && cp doc/environ.sh.sample environ.sh && source $DCTC/kos/environ.sh && make
+RUN mkdir -p $DCTC && chmod -R 755 $DCTC && chown -R $(id -u):$(id -g) $DCTC && git clone https://github.com/KallistiOS/KallistiOS.git -b v2.2.x $DCTC/kos && cd $DCTC/kos/utils/dc-chain && cp Makefile.default.cfg Makefile.cfg && make && make clean distclean 
+RUN cd $DCTC/kos && cp $DCTC/kos/doc/environ.sh.sample $DCTC/kos/environ.sh && . $DCTC/kos/environ.sh && make
 RUN git clone --recursive https://github.com/tifasoftware/kos-ports $DCTC/kos-ports && $DCTC/kos-ports/utils/build-all.sh
 RUN git clone https://gitlab.com/simulant/mkdcdisc.git $DCTC/mkdcdisc && cd $DCTC/mkdcdisc && meson setup builddir && meson compile -C builddir
