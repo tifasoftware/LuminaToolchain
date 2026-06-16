@@ -27,7 +27,8 @@ RUN apt-get update && apt-get install -y \
     rake \
     autopoint \
     libgmp3-dev \
-    libgsl-dev
+    libgsl-dev \
+    dh-autoreconf
 
 ENV PSPDEV="/usr/local/pspdev"
 
