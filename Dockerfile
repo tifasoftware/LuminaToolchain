@@ -28,7 +28,11 @@ RUN apt-get update && apt-get install -y \
     autopoint \
     libgmp3-dev \
     libgsl-dev \
-    dh-autoreconf
+    dh-autoreconf \
+    bison \
+    flex \
+    clang \
+    lld
 
 ENV PSPDEV="/usr/local/pspdev"
 
