@@ -32,7 +32,8 @@ RUN apt-get update && apt-get install -y \
     bison \
     flex \
     clang \
-    lld
+    lld \
+    llvm
 
 ENV PSPDEV="/usr/local/pspdev"
 
